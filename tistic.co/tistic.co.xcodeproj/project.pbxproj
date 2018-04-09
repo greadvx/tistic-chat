@@ -8,25 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		17D9BB74DE5D3FC9248F2D22 /* Pods_tistic_co.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C02C5F10477C3F4B8F867AF /* Pods_tistic_co.framework */; };
+		63185C38207BF7930076AEC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63185C37207BF7930076AEC0 /* Assets.xcassets */; };
 		63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B39C232059AFDC00C43FDC /* AppDelegate.swift */; };
 		63B39C262059AFDC00C43FDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B39C252059AFDC00C43FDC /* ViewController.swift */; };
 		63B39C292059AFDC00C43FDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C272059AFDC00C43FDC /* Main.storyboard */; };
-		63B39C2B2059AFDE00C43FDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C2A2059AFDE00C43FDC /* Assets.xcassets */; };
 		63B39C2E2059AFDE00C43FDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C2C2059AFDE00C43FDC /* LaunchScreen.storyboard */; };
-		63B39C362059B25700C43FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C352059B25700C43FDC /* GoogleService-Info.plist */; };
+		63FD04BE2078980500D943D3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FD04BD2078980500D943D3 /* Constants.swift */; };
+		63FD04C020789A6E00D943D3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63FD04BF20789A6E00D943D3 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1C02C5F10477C3F4B8F867AF /* Pods_tistic_co.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tistic_co.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D0A3C07765152F8B4E3C208 /* Pods-tistic.co.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tistic.co.release.xcconfig"; path = "Pods/Target Support Files/Pods-tistic.co/Pods-tistic.co.release.xcconfig"; sourceTree = "<group>"; };
+		63185C37207BF7930076AEC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		63B39C202059AFDC00C43FDC /* tistic.co.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tistic.co.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B39C232059AFDC00C43FDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63B39C252059AFDC00C43FDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		63B39C282059AFDC00C43FDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		63B39C2A2059AFDE00C43FDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63B39C2D2059AFDE00C43FDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63B39C2F2059AFDE00C43FDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		63B39C352059B25700C43FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63FD04BD2078980500D943D3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		63FD04BF20789A6E00D943D3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F14C5138B42AD53853A6094E /* Pods-tistic.co.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tistic.co.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tistic.co/Pods-tistic.co.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -51,6 +53,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		63185C34207BCDB20076AEC0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				63185C37207BF7930076AEC0 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		63B39C172059AFDC00C43FDC = {
 			isa = PBXGroup;
 			children = (
@@ -73,12 +83,13 @@
 			isa = PBXGroup;
 			children = (
 				63B39C232059AFDC00C43FDC /* AppDelegate.swift */,
+				63FD04BD2078980500D943D3 /* Constants.swift */,
 				63B39C252059AFDC00C43FDC /* ViewController.swift */,
 				63B39C272059AFDC00C43FDC /* Main.storyboard */,
-				63B39C2A2059AFDE00C43FDC /* Assets.xcassets */,
 				63B39C2C2059AFDE00C43FDC /* LaunchScreen.storyboard */,
+				63185C34207BCDB20076AEC0 /* Resources */,
 				63B39C2F2059AFDE00C43FDC /* Info.plist */,
-				63B39C352059B25700C43FDC /* GoogleService-Info.plist */,
+				63FD04BF20789A6E00D943D3 /* GoogleService-Info.plist */,
 			);
 			path = tistic.co;
 			sourceTree = "<group>";
@@ -153,8 +164,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				63B39C2E2059AFDE00C43FDC /* LaunchScreen.storyboard in Resources */,
-				63B39C362059B25700C43FDC /* GoogleService-Info.plist in Resources */,
-				63B39C2B2059AFDE00C43FDC /* Assets.xcassets in Resources */,
+				63FD04C020789A6E00D943D3 /* GoogleService-Info.plist in Resources */,
+				63185C38207BF7930076AEC0 /* Assets.xcassets in Resources */,
 				63B39C292059AFDC00C43FDC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,12 +213,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-tistic.co/Pods-tistic.co-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +239,7 @@
 			files = (
 				63B39C262059AFDC00C43FDC /* ViewController.swift in Sources */,
 				63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */,
+				63FD04BE2078980500D943D3 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,10 +384,11 @@
 			baseConfigurationReference = F14C5138B42AD53853A6094E /* Pods-tistic.co.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EJUZ724HXE;
 				INFOPLIST_FILE = tistic.co/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,10 +405,11 @@
 			baseConfigurationReference = 2D0A3C07765152F8B4E3C208 /* Pods-tistic.co.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EJUZ724HXE;
 				INFOPLIST_FILE = tistic.co/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
