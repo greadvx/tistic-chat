@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SignInViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
@@ -39,5 +40,34 @@ class SignInViewController: UIViewController {
     func configurateView(view: UIView) {
         view.layer.cornerRadius = 15
         view.backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0)
+    }
+    @IBAction func signIn(_ sender: Any) {
+        let emailIsInputed = RegularExpressions.isValidEmailAddress(emailAddressString: emailTextField.text!)
+        if passwordTextField.text!.isEmpty && passwordTextField.text!.count < 6 {
+            displayAlertMessage(messageToDisplay: "Please, input password. Minimal length is 6 charcters.")
+            return
+        }
+        if emailIsInputed != true {
+            displayAlertMessage(messageToDisplay: "E-mail adress is incorrect. Please input correct e-mail adress.")
+            return
+        }
+        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+            if error != nil {
+                self.displayAlertMessage(messageToDisplay:error!.localizedDescription)
+                return
+            } else {
+                self.performSegue(withIdentifier: "signIn", sender: nil)
+            }
+        }
+    }
+    
+    private func displayAlertMessage(messageToDisplay: String){
+        
+        let alertController = UIAlertController(title: "Error!", message: messageToDisplay, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+            print("Ok button tapped");
+        }
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion:nil)
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor(red:0.47, green:0.69, blue:0.44, alpha:1.0)
         UITabBar.appearance().backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0)
         FirebaseApp.configure()
+        IQKeyboardManager.sharedManager().enable = true
         return true
     }
 

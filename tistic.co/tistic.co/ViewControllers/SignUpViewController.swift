@@ -8,8 +8,9 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var surnameTextField: UITextField!
@@ -46,68 +47,82 @@ class SignUpViewController: UIViewController {
         view.backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0)
     }
     
-    
-    
-    
-    
-    
-    @IBAction func createUser(_ sender: Any) {
-        //pharse with regular expression
-        //name
-        //surname
-        //email
-        //password for equal 6 char
-        //try catch block
-//        let isValidEmail = isValidEmailAddress(emailAddressString: emailTextField.text!)
-//        Auth.auth().createUser(withEmail: "qwert@gmail.com", password: "123456") { (user: User?, error: Error?) in
-//            if error != nil {
-//                print(error?.localizedDescription)
-//                return
-//        }
-//            print(user)
-//        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
     
-    
-//    func isValidEmailAddress(emailAddressString: String) -> Bool {
-//
-//        var returnValue = true
-//        let emailRegEx = "[A-Z0-9a-z.-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}"
-//
-//        do {
-//            let regex = try NSRegularExpression(pattern: emailRegEx)
-//            let nsString = emailAddressString as NSString
-//            let results = regex.matches(in: emailAddressString, range: NSRange(location: 0, length: nsString.length))
-//
-//            if results.count == 0 {
-//                returnValue = false
-//            }
-//
-//        } catch let error as NSError {
-//            print("invalid regex: \(error.localizedDescription)")
-//            returnValue = false
-//        }
-//
-//        return  returnValue
-//    }
-    
-//    func displayAlertMessage(messageToDisplay: String)
-//    {
-//        let alertController = UIAlertController(title: "Alert", message: messageToDisplay, preferredStyle: .alert)
-//
-//        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-//
-//            // Code in this block will trigger when OK button tapped.
-//            print("Ok button tapped");
-//
-//        }
-//
-//        alertController.addAction(OKAction)
-//
-//        self.present(alertController, animated: true, completion:nil)
-//    }
-    
-    
+    }
+    @IBAction func createUser(_ sender: Any) {
+        
+        if (nameTextField.text!.isEmpty) {
+            displayAlertMessage(messageToDisplay: "Please, input your name")
+            return
+        }
+        if (surnameTextField.text!.isEmpty) {
+            displayAlertMessage(messageToDisplay: "Please, input your surname")
+            return
+        }
+        let emailIsInputed = RegularExpressions.isValidEmailAddress(emailAddressString: emailTextField.text!)
+        if emailIsInputed == false {
+            displayAlertMessage(messageToDisplay: "E-mail adress isn't correct.")
+            return
+        }
+        if (passwordTextField.text! != confirmPasswordTextField.text!) {
+            displayAlertMessage(messageToDisplay: "Passowrds not equal.")
+            return
+        } else {
+            if (passwordTextField.text!.count == 0 && confirmPasswordTextField.text!.count == 0) {
+                displayAlertMessage(messageToDisplay: "Empty fields password.")
+                return
+            }
+            if (passwordTextField.text!.count < 6 && confirmPasswordTextField.text!.count <= 6) {
+                displayAlertMessage(messageToDisplay: "Inputed password is too short. You need to input al least 6 characters.")
+                return
+            }
+        }
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text, let surname = surnameTextField.text else {
+            displayAlertMessage(messageToDisplay: "Registartion form is not valid")
+            return
+        }
+        Auth.auth().createUser(withEmail: email,
+                               password: password) { (user, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            } else {
+                //save user to database
+                guard let uid = user?.uid else {
+                    return
+                }
+                
+                let reference = Database.database().reference(fromURL: "https://tistic-co.firebaseio.com/")
+                let userReference = reference.child("users").child(uid)
+                let userInfo = ["name" : name, "surname" : surname, "email" : email]
+                userReference.updateChildValues(userInfo, withCompletionBlock: { (err, reference) in
+                    if err != nil {
+                        print("Error occured")
+                        self.displayAlertMessage(messageToDisplay: (err?.localizedDescription)!)
+                        return
+                    } else {
+                        
+                    }
+                })
+                
+            }
+        }
+        performSegue(withIdentifier: "submitSegue", sender: nil)
+    }
+    private func displayAlertMessage(messageToDisplay: String){
+        
+        let alertController = UIAlertController(title: "Error!", message: messageToDisplay, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+            print("Ok button tapped");
+        }
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion:nil)
+    }
     
     @IBAction func dismissSignUpVC(_ sender: Any) {
         dismiss(animated: true, completion: nil)

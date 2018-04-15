@@ -22,7 +22,11 @@
 		63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B39C232059AFDC00C43FDC /* AppDelegate.swift */; };
 		63B39C292059AFDC00C43FDC /* Start.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C272059AFDC00C43FDC /* Start.storyboard */; };
 		63B39C2E2059AFDE00C43FDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C2C2059AFDE00C43FDC /* LaunchScreen.storyboard */; };
-		63FD04BE2078980500D943D3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FD04BD2078980500D943D3 /* Constants.swift */; };
+		63EF3218208333E600DC9D3B /* RegExp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF3217208333E600DC9D3B /* RegExp.swift */; };
+		63EF32392083B37800DC9D3B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF32382083B37800DC9D3B /* User.swift */; };
+		63EF323B2083C9F200DC9D3B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF323A2083C9F200DC9D3B /* ProfileViewController.swift */; };
+		63EF323D2083CE3500DC9D3B /* SelectedUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF323C2083CE3500DC9D3B /* SelectedUserViewController.swift */; };
+		63EF323F2083ECCB00DC9D3B /* ActiveChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF323E2083ECCB00DC9D3B /* ActiveChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +48,11 @@
 		63B39C282059AFDC00C43FDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Start.storyboard; sourceTree = "<group>"; };
 		63B39C2D2059AFDE00C43FDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63B39C2F2059AFDE00C43FDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		63FD04BD2078980500D943D3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		63EF3217208333E600DC9D3B /* RegExp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegExp.swift; sourceTree = "<group>"; };
+		63EF32382083B37800DC9D3B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		63EF323A2083C9F200DC9D3B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		63EF323C2083CE3500DC9D3B /* SelectedUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedUserViewController.swift; sourceTree = "<group>"; };
+		63EF323E2083ECCB00DC9D3B /* ActiveChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveChatViewController.swift; sourceTree = "<group>"; };
 		F14C5138B42AD53853A6094E /* Pods-tistic.co.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tistic.co.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tistic.co/Pods-tistic.co.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,9 +103,12 @@
 			children = (
 				6344736B207E398800B79D8C /* SignInViewController.swift */,
 				6344738E207E70A100B79D8C /* SignUpViewController.swift */,
+				63EF323E2083ECCB00DC9D3B /* ActiveChatViewController.swift */,
 				6344737F207E5EBF00B79D8C /* ContactsViewController.swift */,
 				63447381207E5EC700B79D8C /* SettingsViewController.swift */,
 				63447383207E5ED100B79D8C /* MessagesViewController.swift */,
+				63EF323A2083C9F200DC9D3B /* ProfileViewController.swift */,
+				63EF323C2083CE3500DC9D3B /* SelectedUserViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -124,7 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				63B39C232059AFDC00C43FDC /* AppDelegate.swift */,
-				63FD04BD2078980500D943D3 /* Constants.swift */,
+				63EF32372083B35D00DC9D3B /* Model */,
+				63EF3216208333CE00DC9D3B /* RegularExpressions */,
 				63447385207E5EE800B79D8C /* Storyboards */,
 				63447389207E694A00B79D8C /* ViewControllers */,
 				63185C34207BCDB20076AEC0 /* Resources */,
@@ -132,6 +144,22 @@
 				6344738C207E6A8B00B79D8C /* GoogleService-Info.plist */,
 			);
 			path = tistic.co;
+			sourceTree = "<group>";
+		};
+		63EF3216208333CE00DC9D3B /* RegularExpressions */ = {
+			isa = PBXGroup;
+			children = (
+				63EF3217208333E600DC9D3B /* RegExp.swift */,
+			);
+			path = RegularExpressions;
+			sourceTree = "<group>";
+		};
+		63EF32372083B35D00DC9D3B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				63EF32382083B37800DC9D3B /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F96DB6FBB1DAED6CF93D30E0 /* Frameworks */ = {
@@ -259,6 +287,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-tistic.co/Pods-tistic.co-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -266,6 +295,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -283,11 +313,15 @@
 			files = (
 				63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */,
 				6344738F207E70A100B79D8C /* SignUpViewController.swift in Sources */,
+				63EF3218208333E600DC9D3B /* RegExp.swift in Sources */,
 				63447384207E5ED100B79D8C /* MessagesViewController.swift in Sources */,
-				63FD04BE2078980500D943D3 /* Constants.swift in Sources */,
+				63EF323D2083CE3500DC9D3B /* SelectedUserViewController.swift in Sources */,
+				63EF32392083B37800DC9D3B /* User.swift in Sources */,
 				6344736C207E398800B79D8C /* SignInViewController.swift in Sources */,
+				63EF323B2083C9F200DC9D3B /* ProfileViewController.swift in Sources */,
 				63447380207E5EBF00B79D8C /* ContactsViewController.swift in Sources */,
 				63447382207E5EC700B79D8C /* SettingsViewController.swift in Sources */,
+				63EF323F2083ECCB00DC9D3B /* ActiveChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

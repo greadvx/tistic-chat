@@ -7,29 +7,48 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class ContactsViewController: UIViewController {
 
+    var users = [User]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.view.layer.backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0).cgColor
+        checkIfUserIsLoggedIn()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func checkIfUserIsLoggedIn() {
+        if Auth.auth().currentUser?.uid == nil {
+            performSelector(onMainThread: #selector(handleLogout), with: nil, waitUntilDone: false)
+        } else {
+            fetchUser()
+        }
+            //my own name in database
+//            let uid = Auth.auth().currentUser?.uid
     }
-    */
-
+    @objc private func handleLogout() {
+        do{
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError.localizedDescription)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func fetchUser() {
+        Database.database().reference().child("users").observe(.childAdded, with: { (snapshot) in
+           
+            if let dictionary = snapshot.value as? [String : Any] {
+                let user = User()
+                user.name = dictionary["name"] as? String
+                user.surname = dictionary["surname"] as? String
+                user.email = dictionary["email"] as? String
+                self.users.append(user)
+            }
+        }, withCancel: nil)
+    }
 }
