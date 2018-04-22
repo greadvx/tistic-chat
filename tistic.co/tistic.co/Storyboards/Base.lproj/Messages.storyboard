@@ -58,9 +58,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="a6L-r0-elf" kind="show" id="PWY-XT-Q1d"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -69,6 +66,9 @@
                         <viewLayoutGuide key="safeArea" id="P6s-li-Bjt"/>
                     </view>
                     <navigationItem key="navigationItem" title="Messages" id="fBz-cz-nMe"/>
+                    <connections>
+                        <segue destination="Ycz-Cx-CKz" kind="show" identifier="MessagesSeque" id="ExG-xL-CgG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEe-Nd-2lz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -84,10 +84,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="jVu-X6-AIu"/>
                     </view>
+                    <navigationItem key="navigationItem" id="esO-pM-gMa">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="ZjB-mR-rFL">
+                            <connections>
+                                <action selector="backButton:" destination="a6L-r0-elf" id="FQW-uf-VJ6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddX-1t-RZX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6" y="-1137"/>
+            <point key="canvasLocation" x="1112.8" y="-1137.481259370315"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dUC-Pf-2IH">
@@ -109,6 +116,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Giq-4X-pOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1586" y="-1137"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="BTx-Kv-gkm">
+            <objects>
+                <navigationController storyboardIdentifier="ActiveMessages" automaticallyAdjustsScrollViewInsets="NO" id="Ycz-Cx-CKz" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8wr-nR-SKO">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="a6L-r0-elf" kind="relationship" relationship="rootViewController" id="9Fp-Ip-SLD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rZz-nP-H2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="-1137"/>
         </scene>
     </scenes>
     <resources>

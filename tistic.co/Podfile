@@ -11,4 +11,5 @@ target 'tistic.co' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'IQKeyboardManagerSwift'
+  pod 'JSQMessagesViewController'
 end

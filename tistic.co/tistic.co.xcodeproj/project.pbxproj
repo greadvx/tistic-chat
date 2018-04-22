@@ -22,6 +22,7 @@
 		6357E0422085FD1F004B1567 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */; };
 		6357E0442086372D004B1567 /* DatabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E0432086372D004B1567 /* DatabaseProvider.swift */; };
 		6357E04620863826004B1567 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E04520863826004B1567 /* Constants.swift */; };
+		639379F0208D2DFE0022923B /* extentionForActiveChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */; };
 		63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B39C232059AFDC00C43FDC /* AppDelegate.swift */; };
 		63B39C292059AFDC00C43FDC /* Start.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C272059AFDC00C43FDC /* Start.storyboard */; };
 		63B39C2E2059AFDE00C43FDC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C2C2059AFDE00C43FDC /* LaunchScreen.storyboard */; };
@@ -49,6 +50,7 @@
 		6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		6357E0432086372D004B1567 /* DatabaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProvider.swift; sourceTree = "<group>"; };
 		6357E04520863826004B1567 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extentionForActiveChatVC.swift; sourceTree = "<group>"; };
 		63B39C202059AFDC00C43FDC /* tistic.co.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tistic.co.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B39C232059AFDC00C43FDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63B39C282059AFDC00C43FDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Start.storyboard; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				63185C34207BCDB20076AEC0 /* Resources */,
 				63B39C2F2059AFDE00C43FDC /* Info.plist */,
 				6344738C207E6A8B00B79D8C /* GoogleService-Info.plist */,
+				639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */,
 				6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */,
 			);
 			path = tistic.co;
@@ -297,6 +300,8 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -305,6 +310,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -331,6 +338,7 @@
 				6344736C207E398800B79D8C /* SignInViewController.swift in Sources */,
 				63EF323B2083C9F200DC9D3B /* ProfileViewController.swift in Sources */,
 				63447380207E5EBF00B79D8C /* ContactsViewController.swift in Sources */,
+				639379F0208D2DFE0022923B /* extentionForActiveChatVC.swift in Sources */,
 				6357E04620863826004B1567 /* Constants.swift in Sources */,
 				63447382207E5EC700B79D8C /* SettingsViewController.swift in Sources */,
 				63EF323F2083ECCB00DC9D3B /* ActiveChatViewController.swift in Sources */,

@@ -25,13 +25,16 @@
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqI-GK-hhd">
-                                <rect key="frame" x="16" y="460" width="343" height="30"/>
+                                <rect key="frame" x="16" y="460" width="343" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.60392156860000001" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Send message">
                                     <color key="titleColor" red="0.99608953830000002" green="1" blue="0.94626420919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendMessageButton:" destination="OPF-nc-u78" eventType="touchUpInside" id="Mg2-CW-PPO"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p72-IA-9ha">
                                 <rect key="frame" x="16" y="283" width="343" height="30"/>
@@ -58,6 +61,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="evT-hp-vTH"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Tik-MC-veG">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="5Bw-rM-R8N">
+                            <connections>
+                                <action selector="backButton:" destination="OPF-nc-u78" id="sSy-3m-Rdd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="nameLabel" destination="p72-IA-9ha" id="7If-3H-HIw"/>
                         <outlet property="profilePhoto" destination="b3d-R6-qXX" id="Iya-nm-n3U"/>
@@ -68,7 +78,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JM7-SH-okG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1066" y="-1146"/>
+            <point key="canvasLocation" x="-127.2" y="-1146.4767616191905"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NeQ-eU-CjE">
@@ -157,11 +167,30 @@
                     <navigationItem key="navigationItem" title="Contacts" id="P3B-2V-XrG"/>
                     <connections>
                         <outlet property="myTableView" destination="V6d-9a-Tu0" id="GvL-N9-CLT"/>
+                        <segue destination="sSf-kK-nRg" kind="show" identifier="ChatSegue" id="jIY-ia-N8t"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1T-M7-P97" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1903.2" y="-1146.4767616191905"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YCy-Ed-SOv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sSf-kK-nRg" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZpH-6N-9uY">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OPF-nc-u78" kind="relationship" relationship="rootViewController" id="giW-JD-Dth"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zgs-Bd-wLt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1066.4000000000001" y="-1146.4767616191905"/>
         </scene>
     </scenes>
     <resources>

@@ -14,6 +14,7 @@ class ContactsViewController: UITableViewController, FetchData {
 
     @IBOutlet var myTableView: UITableView!
     private let CELL_ID = "contactCell"
+    private let CHAT_SEGUE = "ChatSegue"
     private var users = [User]()
     
     override func viewDidLoad() {
@@ -54,5 +55,10 @@ class ContactsViewController: UITableViewController, FetchData {
         let cell: ContactTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: CELL_ID, for: indexPath) as! ContactTableViewCell
         cell.updateContactCell(nameAndSurname: users[indexPath.row].name! + " " + users[indexPath.row].surname!, status: "offline")
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //TODO: here I need to send data
+        performSegue(withIdentifier: CHAT_SEGUE, sender: nil)
     }
 }

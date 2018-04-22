@@ -14,6 +14,22 @@ class SelectedUserViewController: UIViewController {
     @IBOutlet weak var surnameLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var sendMessageButton: UIButton!
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    @IBAction func sendMessageButton(_ sender: Any) {
+        
+        //TODO: HERE SNEDER IS A DATA TO SEND TO ANOTHER SCREEN
+        let storyboard = UIStoryboard(name: "Messages", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "ActiveMessages")
+        
+        //here I will send data to the view
+        
+        self.present(viewController, animated: true, completion: nil)
+    
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,4 +40,6 @@ class SelectedUserViewController: UIViewController {
         button.layer.cornerRadius = 15.0
         button.layer.backgroundColor = UIColor(red:0.47, green:0.69, blue:0.44, alpha:1.0).cgColor
     }
+    
+    
 }
