@@ -22,6 +22,8 @@
 		6357E0422085FD1F004B1567 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */; };
 		6357E0442086372D004B1567 /* DatabaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E0432086372D004B1567 /* DatabaseProvider.swift */; };
 		6357E04620863826004B1567 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357E04520863826004B1567 /* Constants.swift */; };
+		636AF25C2093939100DA2DC7 /* extentionsProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636AF25B2093939100DA2DC7 /* extentionsProfileVC.swift */; };
+		636AF25F2094C70B00DA2DC7 /* cacheExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636AF25E2094C70B00DA2DC7 /* cacheExtention.swift */; };
 		639379F0208D2DFE0022923B /* extentionForActiveChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */; };
 		63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B39C232059AFDC00C43FDC /* AppDelegate.swift */; };
 		63B39C292059AFDC00C43FDC /* Start.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B39C272059AFDC00C43FDC /* Start.storyboard */; };
@@ -50,6 +52,8 @@
 		6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		6357E0432086372D004B1567 /* DatabaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProvider.swift; sourceTree = "<group>"; };
 		6357E04520863826004B1567 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		636AF25B2093939100DA2DC7 /* extentionsProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extentionsProfileVC.swift; sourceTree = "<group>"; };
+		636AF25E2094C70B00DA2DC7 /* cacheExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cacheExtention.swift; sourceTree = "<group>"; };
 		639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extentionForActiveChatVC.swift; sourceTree = "<group>"; };
 		63B39C202059AFDC00C43FDC /* tistic.co.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tistic.co.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63B39C232059AFDC00C43FDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,16 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		636AF25D2094C6DF00DA2DC7 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				636AF25B2093939100DA2DC7 /* extentionsProfileVC.swift */,
+				639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */,
+				636AF25E2094C70B00DA2DC7 /* cacheExtention.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		63B39C172059AFDC00C43FDC = {
 			isa = PBXGroup;
 			children = (
@@ -142,7 +156,9 @@
 		63B39C222059AFDC00C43FDC /* tistic.co */ = {
 			isa = PBXGroup;
 			children = (
+				636AF25D2094C6DF00DA2DC7 /* Helpers */,
 				63B39C232059AFDC00C43FDC /* AppDelegate.swift */,
+				6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */,
 				6357E04520863826004B1567 /* Constants.swift */,
 				6357E0432086372D004B1567 /* DatabaseProvider.swift */,
 				63EF32372083B35D00DC9D3B /* Model */,
@@ -152,8 +168,6 @@
 				63185C34207BCDB20076AEC0 /* Resources */,
 				63B39C2F2059AFDE00C43FDC /* Info.plist */,
 				6344738C207E6A8B00B79D8C /* GoogleService-Info.plist */,
-				639379EF208D2DFE0022923B /* extentionForActiveChatVC.swift */,
-				6357E0412085FD1F004B1567 /* ContactTableViewCell.swift */,
 			);
 			path = tistic.co;
 			sourceTree = "<group>";
@@ -328,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6357E0422085FD1F004B1567 /* ContactTableViewCell.swift in Sources */,
+				636AF25F2094C70B00DA2DC7 /* cacheExtention.swift in Sources */,
 				6357E0442086372D004B1567 /* DatabaseProvider.swift in Sources */,
 				63B39C242059AFDC00C43FDC /* AppDelegate.swift in Sources */,
 				6344738F207E70A100B79D8C /* SignUpViewController.swift in Sources */,
@@ -342,6 +357,7 @@
 				6357E04620863826004B1567 /* Constants.swift in Sources */,
 				63447382207E5EC700B79D8C /* SettingsViewController.swift in Sources */,
 				63EF323F2083ECCB00DC9D3B /* ActiveChatViewController.swift in Sources */,
+				636AF25C2093939100DA2DC7 /* extentionsProfileVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

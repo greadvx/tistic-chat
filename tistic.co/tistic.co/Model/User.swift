@@ -13,6 +13,6 @@ class User: NSObject {
     var email: String?
     var name: String?
     var surname: String?
-    var status = ""
-    //var profilePhoto: Sting?
+    var status: String?
+    var profileImageURL: String?
 }

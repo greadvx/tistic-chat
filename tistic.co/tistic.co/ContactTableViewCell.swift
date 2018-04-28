@@ -17,12 +17,15 @@ class ContactTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.contactPhoto.contentMode = .scaleAspectFill
+        self.contactPhoto.layer.cornerRadius = 33
+        self.contactPhoto.layer.masksToBounds = true
         // Initialization code
     }
-    func updateContactCell(nameAndSurname: String, status: String) {
+    func updateContactCell(nameAndSurname: String, status: String, profileImage: String) {
         self.contactNameAndSurnameLabel.text = nameAndSurname
         self.contactStatus.text = status
-        //self.contactPhoto = photo
+        self.contactPhoto.loadImageUsingCacheWithUrlString(urlString: profileImage)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 import FirebaseDatabase
 import FirebaseStorage
 
@@ -14,10 +15,14 @@ import FirebaseStorage
 protocol FetchData: class {
     func dataReceived(contacts: [User])
 }
+protocol GetUser: class {
+    func userInfoReceived(current user: User)
+}
 
 class DatabaseProvider {
     
     weak var delegate: FetchData?
+    weak var delegateGet: GetUser?
     
     private static let _instance = DatabaseProvider()
     
@@ -66,8 +71,8 @@ class DatabaseProvider {
                         user.email = contactData[Constants.EMAIL] as? String
                         user.name = contactData[Constants.NAME] as? String
                         user.surname = contactData[Constants.SURNAME] as? String
-                        //here impements photo and status
-                        
+                        user.status = contactData[Constants.STATUS] as? String
+                        user.profileImageURL = contactData[Constants.PHOTOURL] as? String
                         contacts.append(user)
                     }
                 }
@@ -77,8 +82,21 @@ class DatabaseProvider {
         }, withCancel: nil)
         
     }
-    
-    
-    
+    func getCurrentUserInfo() {
+        if let currentUserID = Auth.auth().currentUser?.uid {
+            contactsReference.child(currentUserID).observeSingleEvent(of: .value, with: { (snapshot) in
+                var currentUser = User()
+                let value = snapshot.value as? NSDictionary
+                currentUser.email = value?["email"] as? String ?? ""
+                currentUser.name = value?["name"] as? String ?? ""
+                currentUser.surname = value?["surname"] as? String ?? ""
+                currentUser.status = value?["status"] as? String ?? ""
+                currentUser.profileImageURL = value?["profileImage"] as? String ?? ""
+             self.delegateGet?.userInfoReceived(current: currentUser)
+            }, withCancel: nil)
+            
+        }
+    }
 }
+
 

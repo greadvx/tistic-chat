@@ -24,12 +24,9 @@ class SelectedUserViewController: UIViewController {
         let viewController = storyboard.instantiateViewController(withIdentifier: "ActiveMessages")
         
         //here I will send data to the view
-        
         self.present(viewController, animated: true, completion: nil)
     
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

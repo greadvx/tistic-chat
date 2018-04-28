@@ -99,7 +99,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 
                 let reference = Database.database().reference(fromURL: "https://tistic-co.firebaseio.com/")
                 let userReference = reference.child("users").child(uid)
-                let userInfo = ["name" : name, "surname" : surname, "email" : email]
+                let userInfo = ["name" : name, "surname" : surname, "email" : email, "profileimageURL": "nil"]
                 userReference.updateChildValues(userInfo, withCompletionBlock: { (err, reference) in
                     if err != nil {
                         print("Error occured")

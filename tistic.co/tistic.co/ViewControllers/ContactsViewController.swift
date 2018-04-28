@@ -53,7 +53,7 @@ class ContactsViewController: UITableViewController, FetchData {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //here indexPath is used to navigate in snapshot of information of users
         let cell: ContactTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: CELL_ID, for: indexPath) as! ContactTableViewCell
-        cell.updateContactCell(nameAndSurname: users[indexPath.row].name! + " " + users[indexPath.row].surname!, status: "offline")
+        cell.updateContactCell(nameAndSurname: users[indexPath.row].name! + " " + users[indexPath.row].surname!, status: users[indexPath.row].status!, profileImage: users[indexPath.row].profileImageURL!)
         return cell
     }
     

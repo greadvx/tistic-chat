@@ -13,6 +13,7 @@ class Constants {
     static let USERS = "users"
     static let PASSWORD = "password"
     static let STATUS = "status"
+    static let PHOTOURL = "profileImage"
     static let PHOTO = "photo"
     static let NAME = "name"
     static let SURNAME = "surname"
