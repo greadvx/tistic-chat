@@ -6,95 +6,35 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Messages-->
-        <scene sceneID="cDf-mN-Myf">
-            <objects>
-                <viewController id="qcw-gi-XIF" customClass="MessagesViewController" customModule="tistic_co" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Y34-a5-EW6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eId-p2-PpJ">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" rowHeight="103" id="SnM-JB-h8d">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="103"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SnM-JB-h8d" id="NmG-Tb-jB9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="102.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TEP-Pa-FkQ">
-                                                    <rect key="frame" x="15" y="16" width="70" height="70"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:41" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9VB-JB-I92" userLabel="Time">
-                                                    <rect key="frame" x="311" y="40" width="49" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Last message...." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8MG-Er-7dl">
-                                                    <rect key="frame" x="102" y="41" width="201" height="51"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name Surname" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Da-5J-zLN">
-                                                    <rect key="frame" x="102" y="16" width="201" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="P6s-li-Bjt"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Messages" id="fBz-cz-nMe"/>
-                    <connections>
-                        <segue destination="Ycz-Cx-CKz" kind="show" identifier="MessagesSeque" id="ExG-xL-CgG"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KEe-Nd-2lz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-826.39999999999998" y="-1137.481259370315"/>
-        </scene>
         <!--Active Chat View Controller-->
         <scene sceneID="yoK-ZM-kuW">
             <objects>
-                <viewController id="a6L-r0-elf" customClass="ActiveChatViewController" customModule="tistic_co" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ActiveChat" id="a6L-r0-elf" customClass="ActiveChatViewController" customModule="tistic_co" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ufh-71-fMs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="jVu-X6-AIu"/>
                     </view>
-                    <navigationItem key="navigationItem" id="esO-pM-gMa">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="ZjB-mR-rFL">
+                    <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="YaR-OM-dIR">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Odn-3C-e8F">
                             <connections>
-                                <action selector="backButton:" destination="a6L-r0-elf" id="FQW-uf-VJ6"/>
+                                <action selector="backButtonAction:" destination="a6L-r0-elf" id="xv2-IB-6AP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="navigationItem" destination="YaR-OM-dIR" id="GJB-w4-YaD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddX-1t-RZX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1112.8" y="-1137.481259370315"/>
+            <point key="canvasLocation" x="70" y="-1137"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dUC-Pf-2IH">
@@ -110,30 +50,92 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="qcw-gi-XIF" kind="relationship" relationship="rootViewController" id="zuD-lM-kve"/>
+                        <segue destination="83o-6f-baa" kind="relationship" relationship="rootViewController" id="0vl-AB-hIu"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Giq-4X-pOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1586" y="-1137"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="BTx-Kv-gkm">
+        <!--Messages-->
+        <scene sceneID="obF-9x-as6">
             <objects>
-                <navigationController storyboardIdentifier="ActiveMessages" automaticallyAdjustsScrollViewInsets="NO" id="Ycz-Cx-CKz" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8wr-nR-SKO">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
+                <tableViewController id="83o-6f-baa" customClass="MessagesViewController" customModule="tistic_co" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nuv-3L-hqd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="80" id="rk0-Aw-xos" customClass="MessageTableViewCell" customModule="tistic_co" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="80"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rk0-Aw-xos" id="WcY-AU-jVX">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last message...." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ves-bF-aGL">
+                                            <rect key="frame" x="87" y="48" width="201" height="24"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Surname" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FiS-ub-nfI">
+                                            <rect key="frame" x="87" y="10" width="249.5" height="19.5"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nfA-it-Rfq">
+                                            <rect key="frame" x="10" y="7" width="65" height="65"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="65" id="1OV-Ea-nmX"/>
+                                                <constraint firstAttribute="height" constant="65" id="jgB-Tu-YmL"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="09:41" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ro1-99-lkf" userLabel="Time">
+                                            <rect key="frame" x="310" y="29" width="43" height="21"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Ves-bF-aGL" firstAttribute="top" secondItem="FiS-ub-nfI" secondAttribute="bottom" constant="18.5" id="3XK-Ya-RqL"/>
+                                        <constraint firstItem="ro1-99-lkf" firstAttribute="leading" secondItem="nfA-it-Rfq" secondAttribute="trailing" constant="235" id="FIh-P9-tMn"/>
+                                        <constraint firstItem="Ves-bF-aGL" firstAttribute="leading" secondItem="nfA-it-Rfq" secondAttribute="trailing" constant="12" id="MxN-pR-Shs"/>
+                                        <constraint firstItem="ro1-99-lkf" firstAttribute="centerY" secondItem="WcY-AU-jVX" secondAttribute="centerY" id="RQl-Lo-1Ed"/>
+                                        <constraint firstItem="FiS-ub-nfI" firstAttribute="width" secondItem="WcY-AU-jVX" secondAttribute="width" multiplier="0.665" id="TRv-5m-89x"/>
+                                        <constraint firstItem="FiS-ub-nfI" firstAttribute="top" secondItem="WcY-AU-jVX" secondAttribute="top" constant="10" id="UDg-ff-Jhx"/>
+                                        <constraint firstAttribute="bottom" secondItem="ro1-99-lkf" secondAttribute="bottom" constant="29.5" id="VbH-aH-KGS"/>
+                                        <constraint firstItem="nfA-it-Rfq" firstAttribute="centerY" secondItem="WcY-AU-jVX" secondAttribute="centerY" id="Zu4-V1-2n3"/>
+                                        <constraint firstItem="Ves-bF-aGL" firstAttribute="width" secondItem="WcY-AU-jVX" secondAttribute="width" multiplier="0.665" id="aEG-51-Ib8"/>
+                                        <constraint firstItem="nfA-it-Rfq" firstAttribute="leading" secondItem="WcY-AU-jVX" secondAttribute="leading" constant="10" id="hxx-DR-HiH"/>
+                                        <constraint firstItem="ro1-99-lkf" firstAttribute="top" secondItem="FiS-ub-nfI" secondAttribute="bottom" constant="-0.5" id="kqE-j6-F94"/>
+                                        <constraint firstItem="FiS-ub-nfI" firstAttribute="leading" secondItem="nfA-it-Rfq" secondAttribute="trailing" constant="12" id="tmu-1h-tst"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="lastMessagePrevLabel" destination="Ves-bF-aGL" id="ygq-2g-7Ba"/>
+                                    <outlet property="nameAndSurnameLabel" destination="FiS-ub-nfI" id="oDe-zQ-afN"/>
+                                    <outlet property="profilePhoto" destination="nfA-it-Rfq" id="NaN-we-tjQ"/>
+                                    <outlet property="timeLabel" destination="ro1-99-lkf" id="Ec0-Y4-eW9"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="83o-6f-baa" id="Jyq-dx-REZ"/>
+                            <outlet property="delegate" destination="83o-6f-baa" id="2Pq-Rw-nl5"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Messages" id="AVh-q1-5h3"/>
                     <connections>
-                        <segue destination="a6L-r0-elf" kind="relationship" relationship="rootViewController" id="9Fp-Ip-SLD"/>
+                        <outlet property="myTableView" destination="nuv-3L-hqd" id="Ftn-5F-Io0"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rZz-nP-H2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xYc-Zf-Gbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="-1137"/>
+            <point key="canvasLocation" x="-895.20000000000005" y="-1138.3808095952024"/>
         </scene>
     </scenes>
     <resources>

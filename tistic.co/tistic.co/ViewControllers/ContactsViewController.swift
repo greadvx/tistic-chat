@@ -58,7 +58,13 @@ class ContactsViewController: UITableViewController, FetchData {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //TODO: here I need to send data
-        performSegue(withIdentifier: CHAT_SEGUE, sender: nil)
+        showUserDetail(forUser: users[indexPath.row])
+    }
+    func showUserDetail(forUser: User) {
+
+        let userDetails = self.storyboard?.instantiateViewController(withIdentifier: "SelectedUserViewController") as! SelectedUserViewController
+        userDetails.user = forUser
+        
+        self.navigationController?.pushViewController(userDetails, animated: true)
     }
 }

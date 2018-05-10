@@ -10,6 +10,8 @@ import UIKit
 import JSQMessagesViewController
 import MobileCoreServices
 import AVKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -18,16 +20,21 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
     
     let picker = UIImagePickerController()
     
-    @IBAction func backButton(_ sender: Any) {
+    @IBAction func backButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    var outgoingUser: User?
+    var currentUserID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.layer.backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0).cgColor
         picker.delegate = self
-        self.senderId = "1"
-        self.senderDisplayName = "test"
+        currentUserID = Auth.auth().currentUser?.uid
+        self.senderId = currentUserID
+        self.senderDisplayName = "sender"
+        self.title = String((outgoingUser?.name)! + " " + (outgoingUser?.surname)!)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -41,8 +48,7 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
         messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
-        
-        //remove text from text field
+        handleSend(fromId: currentUserID!, toId: (outgoingUser?.uid!)!, message: text)
         finishSendingMessage()
     }
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
@@ -105,5 +111,11 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
             }
         }
     }
-    
+    func handleSend(fromId: String, toId: String, message: String) {
+        let ref = Database.database().reference().child("messages")
+        let childRef = ref.childByAutoId()
+        let timestamp = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["text": message, "toId": toId, "fromId": fromId, "timestamp":timestamp] as [String : Any]
+        childRef.updateChildValues(values)
+    }
 }

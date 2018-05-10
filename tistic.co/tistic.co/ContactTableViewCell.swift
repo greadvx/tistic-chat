@@ -20,7 +20,6 @@ class ContactTableViewCell: UITableViewCell {
         self.contactPhoto.contentMode = .scaleAspectFill
         self.contactPhoto.layer.cornerRadius = 33
         self.contactPhoto.layer.masksToBounds = true
-        // Initialization code
     }
     func updateContactCell(nameAndSurname: String, status: String, profileImage: String) {
         self.contactNameAndSurnameLabel.text = nameAndSurname

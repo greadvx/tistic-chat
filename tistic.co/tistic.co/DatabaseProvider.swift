@@ -85,7 +85,7 @@ class DatabaseProvider {
     func getCurrentUserInfo() {
         if let currentUserID = Auth.auth().currentUser?.uid {
             contactsReference.child(currentUserID).observeSingleEvent(of: .value, with: { (snapshot) in
-                var currentUser = User()
+                let currentUser = User()
                 let value = snapshot.value as? NSDictionary
                 currentUser.email = value?["email"] as? String ?? ""
                 currentUser.name = value?["name"] as? String ?? ""
