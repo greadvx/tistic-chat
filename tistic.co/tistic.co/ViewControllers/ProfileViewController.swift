@@ -45,6 +45,11 @@ class ProfileViewController: UIViewController, GetUser {
         self.nameTextField.text = userInfo.name
         self.surnameTextField.text = userInfo.surname
         self.statusTextField.text = userInfo.status
+        self.profilePhoto.loadImageUsingCacheWithUrlString(urlString: userInfo.profileImageURL!)
+        self.profilePhoto.contentMode = .scaleAspectFill
+        self.profilePhoto.layer.cornerRadius = 50
+        self.profilePhoto.layer.masksToBounds = true
+        
     }
    
 }

@@ -21,11 +21,16 @@ class MessageTableViewCell: UITableViewCell {
         self.profilePhoto.layer.cornerRadius = 33
         self.profilePhoto.layer.masksToBounds = true
     }
-    func updateMessageCell(nameAndSurname: String, lastMessagePrev: String, profilePhoto: String, timeStamp: NSNumber) {
+    func updateMessageCell(nameAndSurname: String, lastMessagePrev: String, profilePhoto: String, timeStamp: NSNumber?) {
         self.nameAndSurnameLabel.text = nameAndSurname
         self.lastMessagePrevLabel.text = lastMessagePrev
-        //self.profilePhoto.loadImageUsingCacheWithUrlString(urlString: profilePhoto)
-        //self.timeLabel.text = String(timeStamp.stringValue)
+        self.profilePhoto.loadImageUsingCacheWithUrlString(urlString: profilePhoto)
+        if let seconds = timeStamp?.doubleValue {
+            let timestampDate = NSDate(timeIntervalSince1970: seconds)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "hh:mm"
+            self.timeLabel.text = dateFormatter.string(from: timestampDate as Date)
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

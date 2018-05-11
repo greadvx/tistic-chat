@@ -37,6 +37,7 @@ class MessagesViewController: UITableViewController {
     }
 
     var messages = [Message]()
+    var messagesDictionary = [String: Message]()
     
     func observeMessages() {
         let ref = Database.database().reference().child("messages")
@@ -47,7 +48,14 @@ class MessagesViewController: UITableViewController {
                 message.fromId = dictionary["fromId"] as? String
                 message.toId = dictionary["toId"] as? String
                 message.timestamp = dictionary["timestamp"] as? NSNumber
-                self.messages.append(message)
+                
+                if let toId = message.toId {
+                    self.messagesDictionary[toId] = message
+                    self.messages = Array(self.messagesDictionary.values)
+                    self.messages.sort(by: { (message1, message2) -> Bool in
+                        return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)! 
+                    })
+                }
                 DispatchQueue.global(qos: .userInitiated).async {
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -69,12 +77,18 @@ class MessagesViewController: UITableViewController {
         if let toId = message.toId {
             let ref = Database.database().reference().child("users").child(toId)
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                print(snapshot)
+                if let dictionary = snapshot.value as? [String: Any] {
+                    let user = User()
+                    user.name = dictionary["name"] as? String
+                    user.surname = dictionary["surname"] as? String
+                    user.profileImageURL = dictionary["profileImage"] as? String
+                    user.status = dictionary["status"] as? String
+                    cell.updateMessageCell(nameAndSurname: (user.name)! + " " + (user.surname)!, lastMessagePrev: message.text!, profilePhoto: (user.profileImageURL)!, timeStamp: message.timestamp!)
+                }
+                    
             }, withCancel: nil)
             
         }
-        cell.updateMessageCell(nameAndSurname: message.fromId!, lastMessagePrev: message.text!, profilePhoto: "", timeStamp: message.timestamp!)
-
         //fill here by messages and photo
 
         return cell

@@ -48,6 +48,7 @@ class SelectedUserViewController: UIViewController {
         surnameLabel.text! = (user?.surname)!
         statusLabel.text! = (user?.status)!
         profilePhoto.loadImageUsingCacheWithUrlString(urlString: (user?.profileImageURL)!)
+        
     }
-
+  
 }
