@@ -15,7 +15,8 @@ class Message: NSObject {
     var text: String?
     var timestamp: NSNumber?
     var toId: String?
-    var imageURL: String?
+    var imageMediaURL: String?
+    var videoMediaURL: String?
     
     override init() {
         self.fromId = "none"

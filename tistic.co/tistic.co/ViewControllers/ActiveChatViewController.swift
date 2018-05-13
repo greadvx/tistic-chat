@@ -10,8 +10,10 @@ import UIKit
 import JSQMessagesViewController
 import MobileCoreServices
 import AVKit
+import PhotoSlider
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var messages = [JSQMessage]()
@@ -46,19 +48,45 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 message.toId = dictionary["toId"] as? String
                 message.text = dictionary["text"] as? String
                 message.timestamp = dictionary["timestamp"] as? NSNumber
-//                if message.imageURL = dictionary["imageURL"] as? String {
-//                    //construct media message
-//                } else {
-                if message.chatPartnerId() == self.outgoingUser?.uid {
-                    let validMessage = JSQMessage(senderId: message.fromId!, senderDisplayName: message.fromId!, date: Date(timeIntervalSince1970: TimeInterval(truncating: message.timestamp!)), text: message.text!)
-                    self.messages.append(validMessage!)
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
+                message.imageMediaURL = dictionary["imageMediaURL"] as? String
+                message.videoMediaURL = dictionary["videoMediaURL"] as? String
+                if message.imageMediaURL != nil {
+                    //construct media message
+                    if message.chatPartnerId() == self.outgoingUser?.uid {
+                        let imageView = UIImageView(image: #imageLiteral(resourceName: "Contacts_disactive"))
+                        imageView.loadImageUsingCacheWithUrlString(urlString:   message.imageMediaURL!)
+                        let image = JSQPhotoMediaItem(image: imageView.image)
+                        if (message.fromId! == self.currentUserID) {
+                            image?.appliesMediaViewMaskAsOutgoing = true
+                        } else {
+                            image?.appliesMediaViewMaskAsOutgoing = false
+                        }
+                        let validMessage = JSQMessage(senderId: message.fromId!, displayName: message.fromId!, media: image)
+                        
+                        self.messages.append(validMessage!)
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadData()
+                            }
                         }
                     }
                 }
-               // }
+                if message.videoMediaURL != nil {
+                    if message.chatPartnerId() == self.outgoingUser?.uid {
+                        //construct video message
+                    }
+                }
+                if message.text != nil {
+                    if message.chatPartnerId() == self.outgoingUser?.uid {
+                        let validMessage = JSQMessage(senderId: message.fromId!, senderDisplayName: message.fromId!, date: Date(timeIntervalSince1970: TimeInterval(truncating: message.timestamp!)), text: message.text!)
+                        self.messages.append(validMessage!)
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            DispatchQueue.main.async {
+                                self.collectionView.reloadData()
+                        }
+                    }
+                }
+                }
                 
             }, withCancel: nil)
         }, withCancel: nil)
@@ -71,14 +99,13 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
         self.senderId = currentUserID
         self.senderDisplayName = "sender"
         self.title = String((outgoingUser?.name)! + " " + (outgoingUser?.surname)!)
-        //turn off my image in chatlog
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
-    ////////////here logic for sender receiver
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
         if let profileImageURL = self.outgoingUser?.profileImageURL {
@@ -90,7 +117,6 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
     }
     
     override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
-//        messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, text: text))
         handleSend(fromId: currentUserID!, toId: (outgoingUser?.uid!)!, message: text)
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         finishSendingMessage()
@@ -141,16 +167,31 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let pic = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let img = JSQPhotoMediaItem(image: pic)
-            self.messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, media: img))
+            //let img = JSQPhotoMediaItem(image: pic)
+            uploadToFirebaseStorageUsingImage(image: pic)
         } else {
             if let videoURL = info[UIImagePickerControllerMediaURL] as? URL {
                 let video = JSQVideoMediaItem(fileURL: videoURL, isReadyToPlay: true)
-                messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, media: video))
+               // messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, media: video))
             }
         }
         picker.dismiss(animated: true, completion: nil)
         collectionView.reloadData()
+    }
+    private func uploadToFirebaseStorageUsingImage(image: UIImage) {
+        let imageName = NSUUID().uuidString
+        let ref = Storage.storage().reference().child("media_messages").child("\(imageName).jpg")
+        if let uploadData = UIImageJPEGRepresentation(image, 0.2) {
+            ref.putData(uploadData, metadata: nil) { (metadata, error) in
+                if error != nil {
+                    print("Failed to upload image:", error!)
+                    return
+                }
+                if let imageURL = metadata?.downloadURL()?.absoluteString {
+                    self.sendMessageWithImageMedia(fromId: self.currentUserID!, toId: (self.outgoingUser?.uid!)!, imageMediaURL: imageURL)
+                }
+            }
+        }
     }
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAt indexPath: IndexPath!) {
         let msg = messages[indexPath.item]
@@ -160,8 +201,38 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 let playerViewController = AVPlayerViewController()
                 playerViewController.player = player
                 self.present(playerViewController, animated: true, completion: nil)
-
             }
+            if msg.media.isKind(of: JSQPhotoMediaItem.self) {
+                let mediaItem = msg.media
+                let photoItem = mediaItem as! JSQPhotoMediaItem
+                var images = [UIImage]()
+                images.append(photoItem.image)
+                let photoSlider = PhotoSlider.ViewController(images: images)
+                let i = images.index(of: (msg.media as! JSQPhotoMediaItem).image)!
+                photoSlider.currentPage = i
+                photoSlider.modalPresentationStyle = .overCurrentContext
+                photoSlider.modalTransitionStyle = .crossDissolve
+                present(photoSlider, animated: true, completion: nil)
+            }
+        }
+    }
+    private func sendMessageWithImageMedia(fromId: String, toId: String, imageMediaURL: String) {
+        let ref = Database.database().reference().child("messages")
+        let childRef = ref.childByAutoId()
+        let timestamp = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["imageMediaURL": imageMediaURL, "toId": toId, "fromId": fromId, "timestamp": timestamp] as [String : Any]
+        childRef.updateChildValues(values) { (error, ref) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId)
+            
+            let messageId = childRef.key
+            userMessagesRef.updateChildValues([messageId: 1])
+            
+            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId)
+            recipientUserMessagesRef.updateChildValues([messageId: 1])
         }
     }
     func handleSend(fromId: String, toId: String, message: String) {

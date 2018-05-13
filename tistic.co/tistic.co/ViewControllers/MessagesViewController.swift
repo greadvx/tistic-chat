@@ -103,6 +103,9 @@ class MessagesViewController: UITableViewController {
                     user.surname = dictionary["surname"] as? String
                     user.profileImageURL = dictionary["profileImage"] as? String
                     user.status = dictionary["status"] as? String
+                    if message.text == nil {
+                        message.text = "Media item"
+                    }
                     cell.updateMessageCell(nameAndSurname: (user.name)! + " " + (user.surname)!, lastMessagePrev: message.text!, profilePhoto: (user.profileImageURL)!, timeStamp: message.timestamp!)
                 }
                     

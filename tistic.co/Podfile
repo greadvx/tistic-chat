@@ -12,4 +12,5 @@ target 'tistic.co' do
   pod 'Firebase/Database'
   pod 'IQKeyboardManagerSwift'
   pod 'JSQMessagesViewController'
+  pod 'PhotoSlider'
 end
