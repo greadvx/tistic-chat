@@ -73,7 +73,9 @@ class DatabaseProvider {
                         user.surname = contactData[Constants.SURNAME] as? String
                         user.status = contactData[Constants.STATUS] as? String
                         user.profileImageURL = contactData[Constants.PHOTOURL] as? String
-                        contacts.append(user)
+                        //if (user.uid! != Auth.auth().currentUser?.uid){
+                            contacts.append(user)
+                        //}
                     }
                 }
             

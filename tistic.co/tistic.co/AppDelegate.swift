@@ -17,14 +17,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        //change the color of tab bar items
+       
         UITabBar.appearance().tintColor = UIColor(red:0.47, green:0.69, blue:0.44, alpha:1.0)
         UITabBar.appearance().backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0)
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
-    
+        if (Auth.auth().currentUser?.uid != nil) {
+            showMainScreen()
+            self.refreshUserStatus()
+        }
+        
         return true
+    }
+    func showMainScreen() {
+        let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let initialViewControlleripad : UIViewController = mainStoryboardIpad.instantiateViewController(withIdentifier: "MainTabBar") as UIViewController
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = initialViewControlleripad
+        self.window?.makeKeyAndVisible()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -33,8 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        self.updateStatusOfUser()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -42,13 +51,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        self.refreshUserStatus()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        self.updateStatusOfUser()
     }
-
+    private func updateStatusOfUser() {
+        if let uid = Auth.auth().currentUser?.uid {
+            let ref = Database.database().reference().child("users").child(uid)
+            ref.updateChildValues(["status":"offline"]) { (error, reference) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+            }
+        }
+    }
+   private func refreshUserStatus() {
+        if let uid = Auth.auth().currentUser?.uid {
+            let ref = Database.database().reference().child("users").child(uid)
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String : Any] {
+                    if let statusCustom = dictionary["statusCustom"] as? String {
+                        ref.updateChildValues(["status": statusCustom], withCompletionBlock: { (error, referecne) in
+                            if error != nil {
+                                print(error!)
+                            }
+                        })
+                    }
+                    else {
+                        ref.updateChildValues(["status": "online"], withCompletionBlock: { (error, referecne) in
+                            if error != nil {
+                                print(error!)
+                            }
+                        })
+                    }
+                }
+            }, withCancel: nil)
+        }
+    }
 
 }
 

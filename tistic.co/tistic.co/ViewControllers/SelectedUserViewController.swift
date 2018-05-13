@@ -18,7 +18,6 @@ class SelectedUserViewController: UIViewController {
     
     @IBAction func sendMessageButton(_ sender: Any) {
         let storyboardMessages = UIStoryboard(name: "Messages", bundle: nil)
-        
         let chat = storyboardMessages.instantiateViewController(withIdentifier: "ActiveChat") as! ActiveChatViewController
         chat.outgoingUser = user
         let chatViewController = UINavigationController(rootViewController: chat)

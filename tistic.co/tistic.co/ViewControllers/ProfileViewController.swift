@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfileViewController: UIViewController, GetUser {
     
@@ -15,6 +16,9 @@ class ProfileViewController: UIViewController, GetUser {
     @IBOutlet weak var surnameTextField: UITextField!
     @IBOutlet weak var statusTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
+    @IBAction func saveUpdatedData(_ sender: Any) {
+        self.pushNewDataToDatabase()
+    }
     
     private var userInfo = User()
     
@@ -50,6 +54,17 @@ class ProfileViewController: UIViewController, GetUser {
         self.profilePhoto.layer.cornerRadius = 50
         self.profilePhoto.layer.masksToBounds = true
         
+    }
+    func pushNewDataToDatabase() {
+        if let currentUserId = Auth.auth().currentUser?.uid {
+            let ref = Database.database().reference().child("users").child(currentUserId)
+            let dictionary = ["name": nameTextField.text!, "surname":surnameTextField.text!, "statusCustom": statusTextField.text!, "status": statusTextField.text!]
+            ref.updateChildValues(dictionary) { (error, reference) in
+                if error != nil {
+                    print(error!)
+                }
+            }
+        }
     }
    
 }

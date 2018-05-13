@@ -28,7 +28,7 @@ class MessageTableViewCell: UITableViewCell {
         if let seconds = timeStamp?.doubleValue {
             let timestampDate = NSDate(timeIntervalSince1970: seconds)
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "hh:mm"
+            dateFormatter.dateFormat = "HH:mm"
             self.timeLabel.text = dateFormatter.string(from: timestampDate as Date)
         }
     }

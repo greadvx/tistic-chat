@@ -19,7 +19,9 @@ class MessagesViewController: UITableViewController {
         super.viewDidLoad()
         self.view.layer.backgroundColor = UIColor(red:0.97, green:0.95, blue:0.95, alpha:1.0).cgColor
         checkIfUserIsLoggedIn()
-        observeMessages()
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        observeUserMessages()
     }
     
     func checkIfUserIsLoggedIn() {
@@ -39,32 +41,48 @@ class MessagesViewController: UITableViewController {
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
     
-    func observeMessages() {
-        let ref = Database.database().reference().child("messages")
+    func observeUserMessages() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let ref = Database.database().reference().child("user-messages").child(uid)
         ref.observe(.childAdded, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: Any] {
-                let message = Message()
-                message.text = dictionary["text"] as? String
-                message.fromId = dictionary["fromId"] as? String
-                message.toId = dictionary["toId"] as? String
-                message.timestamp = dictionary["timestamp"] as? NSNumber
+            let messageId = snapshot.key
+            let messageReference = Database.database().reference().child("messages").child(messageId)
+            messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                if let toId = message.toId {
-                    self.messagesDictionary[toId] = message
-                    self.messages = Array(self.messagesDictionary.values)
-                    self.messages.sort(by: { (message1, message2) -> Bool in
-                        return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)! 
-                    })
-                }
-                DispatchQueue.global(qos: .userInitiated).async {
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
+                if let dictionary = snapshot.value as? [String: Any] {
+                    let message = Message()
+                    message.text = dictionary["text"] as? String
+                    message.fromId = dictionary["fromId"] as? String
+                    message.toId = dictionary["toId"] as? String
+                    message.timestamp = dictionary["timestamp"] as? NSNumber
+                    
+                    if let  chatPartnerId = message.chatPartnerId() {
+                        self.messagesDictionary[chatPartnerId] = message
+                        self.messages = Array(self.messagesDictionary.values)
+                        self.messages.sort(by: { (message1, message2) -> Bool in
+                            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
+                        })
                     }
-                }
-            }
-        
+                    self.timer?.invalidate()
+                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                
+                } 
+                
+            }, withCancel: nil)
         }, withCancel: nil)
     }
+    
+    var timer: Timer?
+    @objc func handleReloadTable() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -74,11 +92,13 @@ class MessagesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MessageTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: CELL_ID, for: indexPath) as! MessageTableViewCell
         let message = messages[indexPath.row]
-        if let toId = message.toId {
-            let ref = Database.database().reference().child("users").child(toId)
+      
+        if let id = message.chatPartnerId() {
+            let ref = Database.database().reference().child("users").child(id)
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String: Any] {
                     let user = User()
+                    user.uid = snapshot.key
                     user.name = dictionary["name"] as? String
                     user.surname = dictionary["surname"] as? String
                     user.profileImageURL = dictionary["profileImage"] as? String
@@ -94,6 +114,29 @@ class MessagesViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let y = 5
+        let storyboardMessages = UIStoryboard(name: "Messages", bundle: nil)
+        let chat = storyboardMessages.instantiateViewController(withIdentifier: "ActiveChat") as! ActiveChatViewController
+        let message = messages[indexPath.row]
+        guard let chatPartnerId = message.chatPartnerId() else {
+            return
+        }
+        
+        let ref = Database.database().reference().child("users").child(chatPartnerId)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else {
+                return
+            }
+            let user = User()
+            user.uid = snapshot.key
+            user.name = dictionary["name"] as? String
+            user.surname = dictionary["surname"] as? String
+            user.profileImageURL = dictionary["profileImage"] as? String
+            user.status = dictionary["status"] as? String
+            user.email = dictionary["email"] as? String
+            chat.outgoingUser = user 
+            let chatViewController = UINavigationController(rootViewController: chat)
+            self.show(chatViewController, sender: nil)
+        }, withCancel: nil)
+        
     }
 }

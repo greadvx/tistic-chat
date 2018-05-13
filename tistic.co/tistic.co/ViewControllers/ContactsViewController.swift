@@ -23,6 +23,7 @@ class ContactsViewController: UITableViewController, FetchData {
         checkIfUserIsLoggedIn()
         DatabaseProvider.Instance.delegate = self
         DatabaseProvider.Instance.getContacts()
+        self.refreshUserStatus()
     }
     
     func dataReceived(contacts: [User]) {
@@ -66,5 +67,28 @@ class ContactsViewController: UITableViewController, FetchData {
         userDetails.user = forUser
         
         self.navigationController?.pushViewController(userDetails, animated: true)
+    }
+    private func refreshUserStatus() {
+        if let uid = Auth.auth().currentUser?.uid {
+            let ref = Database.database().reference().child("users").child(uid)
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String : Any] {
+                    if let statusCustom = dictionary["statusCustom"] as? String {
+                        ref.updateChildValues(["status": statusCustom], withCompletionBlock: { (error, referecne) in
+                            if error != nil {
+                                print(error!)
+                            }
+                        })
+                    }
+                    else {
+                        ref.updateChildValues(["status": "online"], withCompletionBlock: { (error, referecne) in
+                            if error != nil {
+                                print(error!)
+                            }
+                        })
+                    }
+                }
+            }, withCancel: nil)
+        }
     }
 }
