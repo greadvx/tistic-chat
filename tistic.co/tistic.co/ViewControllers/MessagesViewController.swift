@@ -22,6 +22,7 @@ class MessagesViewController: UITableViewController {
         messages.removeAll()
         messagesDictionary.removeAll()
         observeUserMessages()
+        myTableView.allowsMultipleSelectionDuringEditing = true
     }
     
     func checkIfUserIsLoggedIn() {
@@ -47,42 +48,75 @@ class MessagesViewController: UITableViewController {
         }
         let ref = Database.database().reference().child("user-messages").child(uid)
         ref.observe(.childAdded, with: { (snapshot) in
-            let messageId = snapshot.key
-            let messageReference = Database.database().reference().child("messages").child(messageId)
-            messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                if let dictionary = snapshot.value as? [String: Any] {
-                    let message = Message()
-                    message.text = dictionary["text"] as? String
-                    message.fromId = dictionary["fromId"] as? String
-                    message.toId = dictionary["toId"] as? String
-                    message.timestamp = dictionary["timestamp"] as? NSNumber
+            let userId = snapshot.key
+            Database.database().reference().child("user-messages").child(uid).child(userId).observe(.childAdded, with: { (snapshot) in
+                let messageId = snapshot.key
+                let messageReference = Database.database().reference().child("messages").child(messageId)
+                messageReference.observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    if let  chatPartnerId = message.chatPartnerId() {
-                        self.messagesDictionary[chatPartnerId] = message
-                        self.messages = Array(self.messagesDictionary.values)
-                        self.messages.sort(by: { (message1, message2) -> Bool in
-                            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
-                        })
+                    if let dictionary = snapshot.value as? [String: Any] {
+                        let message = Message()
+                        message.text = dictionary["text"] as? String
+                        message.fromId = dictionary["fromId"] as? String
+                        message.toId = dictionary["toId"] as? String
+                        message.timestamp = dictionary["timestamp"] as? NSNumber
+                        
+                        if let  chatPartnerId = message.chatPartnerId() {
+                            self.messagesDictionary[chatPartnerId] = message
+                        }
+                        self.attemptReloadTable()
                     }
-                    self.timer?.invalidate()
-                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
-                
-                } 
-                
+                }, withCancel: nil)
             }, withCancel: nil)
+            
+        }, withCancel: nil)
+        ref.observe(.childRemoved, with: { (snapshot) in
+            
+            self.messagesDictionary.removeValue(forKey: snapshot.key)
+            self.attemptReloadTable()
+            
         }, withCancel: nil)
     }
-    
+    private func attemptReloadTable() {
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+    }
     var timer: Timer?
     @objc func handleReloadTable() {
+        self.messages = Array(self.messagesDictionary.values)
+        self.messages.sort(by: { (message1, message2) -> Bool in
+            return (message1.timestamp?.intValue)! > (message2.timestamp?.intValue)!
+        })
         DispatchQueue.global(qos: .userInitiated).async {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
-    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let message = self.messages[indexPath.row]
+        if let chatPartnerId = message.chatPartnerId() {
+            Database.database().reference().child("user-messages").child(uid).child(chatPartnerId).removeValue { (error, ref) in
+                if error != nil {
+                    print ("Failed to delete: ", error!)
+                    return
+                }
+                self.messagesDictionary.removeValue(forKey: chatPartnerId)
+                self.attemptReloadTable()
+
+//                self.messages.remove(at: indexPath.row)
+//                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        }
+        
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

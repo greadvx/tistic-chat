@@ -34,7 +34,7 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        let userMessageRef = Database.database().reference().child("user-messages").child(uid)
+        let userMessageRef = Database.database().reference().child("user-messages").child(uid).child((outgoingUser?.uid!)!)
         userMessageRef.observe(.childAdded, with: { (snapshot) in
             let messageId = snapshot.key
             let messagesRef = Database.database().reference().child("messages").child(messageId)
@@ -52,22 +52,20 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 message.videoMediaURL = dictionary["videoMediaURL"] as? String
                 if message.imageMediaURL != nil {
                     //construct media message
-                    if message.chatPartnerId() == self.outgoingUser?.uid {
-                        let imageView = UIImageView(image: #imageLiteral(resourceName: "Contacts_disactive"))
-                        imageView.loadImageUsingCacheWithUrlString(urlString:   message.imageMediaURL!)
-                        let image = JSQPhotoMediaItem(image: imageView.image)
-                        if (message.fromId! == self.currentUserID) {
-                            image?.appliesMediaViewMaskAsOutgoing = true
-                        } else {
-                            image?.appliesMediaViewMaskAsOutgoing = false
-                        }
-                        let validMessage = JSQMessage(senderId: message.fromId!, displayName: message.fromId!, media: image)
+                    let imageView = UIImageView(image: #imageLiteral(resourceName: "Contacts_disactive"))
+                    imageView.loadImageUsingCacheWithUrlString(urlString:   message.imageMediaURL!)
+                    let image = JSQPhotoMediaItem(image: imageView.image)
+                    if (message.fromId! == self.currentUserID) {
+                        image?.appliesMediaViewMaskAsOutgoing = true
+                    } else {
+                        image?.appliesMediaViewMaskAsOutgoing = false
+                    }
+                    let validMessage = JSQMessage(senderId: message.fromId!, displayName: message.fromId!, media: image)
                         
-                        self.messages.append(validMessage!)
-                        DispatchQueue.global(qos: .userInitiated).async {
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadData()
-                            }
+                    self.messages.append(validMessage!)
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
                         }
                     }
                 }
@@ -167,10 +165,10 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let pic = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            //let img = JSQPhotoMediaItem(image: pic)
             uploadToFirebaseStorageUsingImage(image: pic)
         } else {
             if let videoURL = info[UIImagePickerControllerMediaURL] as? URL {
+                
                 let video = JSQVideoMediaItem(fileURL: videoURL, isReadyToPlay: true)
                // messages.append(JSQMessage(senderId: senderId, displayName: senderDisplayName, media: video))
             }
@@ -193,6 +191,29 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
             }
         }
     }
+    private func uploadToFirebaseStorageUsingVideo(media: NSURL) {
+        let filename = NSUUID().uuidString + ".mov"
+        let ref = Storage.storage().reference().child("media_messages").child(filename)
+        let uploadTask = ref.putFile(from: media as URL, metadata: nil) { (metadata, error) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            if let videoURL = metadata?.downloadURL()?.absoluteString {
+                self.sendMessageWithVideoMedia(fromId: self.currentUserID!, toId: (self.outgoingUser?.uid!)!, videoMediaURL: videoURL)
+            }
+        
+        }
+        uploadTask.observe(.progress) { (snapshot) in
+            if let completionUnitCount = snapshot.progress?.completedUnitCount {
+                self.navigationItem.title = String(completionUnitCount)
+            }
+            
+        }
+        uploadTask.observe(.success) { (snapshot) in
+            self.navigationItem.title = (self.outgoingUser?.name!)! + "" + (self.outgoingUser?.surname!)!
+        }
+    }
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAt indexPath: IndexPath!) {
         let msg = messages[indexPath.item]
         if msg.isMediaMessage {
@@ -206,13 +227,15 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 let mediaItem = msg.media
                 let photoItem = mediaItem as! JSQPhotoMediaItem
                 var images = [UIImage]()
-                images.append(photoItem.image)
-                let photoSlider = PhotoSlider.ViewController(images: images)
-                let i = images.index(of: (msg.media as! JSQPhotoMediaItem).image)!
-                photoSlider.currentPage = i
-                photoSlider.modalPresentationStyle = .overCurrentContext
-                photoSlider.modalTransitionStyle = .crossDissolve
-                present(photoSlider, animated: true, completion: nil)
+                if photoItem.image != nil {
+                    images.append(photoItem.image)
+                    let photoSlider = PhotoSlider.ViewController(images: images)
+                    let i = images.index(of: (msg.media as! JSQPhotoMediaItem).image)!
+                    photoSlider.currentPage = i
+                    photoSlider.modalPresentationStyle = .overCurrentContext
+                    photoSlider.modalTransitionStyle = .crossDissolve
+                    present(photoSlider, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -226,12 +249,31 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 print(error!)
                 return
             }
-            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId)
+            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId).child(toId)
             
             let messageId = childRef.key
             userMessagesRef.updateChildValues([messageId: 1])
             
-            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId)
+            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId).child(fromId)
+            recipientUserMessagesRef.updateChildValues([messageId: 1])
+        }
+    }
+    private func sendMessageWithVideoMedia(fromId: String, toId: String, videoMediaURL: String) {
+        let ref = Database.database().reference().child("messages")
+        let childRef = ref.childByAutoId()
+        let timestamp = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["videoMediaURL": videoMediaURL, "toId": toId, "fromId": fromId, "timestamp": timestamp] as [String : Any]
+        childRef.updateChildValues(values) { (error, ref) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId).child(toId)
+            
+            let messageId = childRef.key
+            userMessagesRef.updateChildValues([messageId: 1])
+            
+            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId).child(fromId)
             recipientUserMessagesRef.updateChildValues([messageId: 1])
         }
     }
@@ -245,12 +287,12 @@ class ActiveChatViewController: JSQMessagesViewController, UIImagePickerControll
                 print(error!)
                 return
             }
-            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId)
+            let userMessagesRef = Database.database().reference().child("user-messages").child(fromId).child(toId)
             
             let messageId = childRef.key
             userMessagesRef.updateChildValues([messageId: 1])
             
-            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId)
+            let recipientUserMessagesRef = Database.database().reference().child("user-messages").child(toId).child(fromId)
             recipientUserMessagesRef.updateChildValues([messageId: 1])
         }
     }
